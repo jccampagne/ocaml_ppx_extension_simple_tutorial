@@ -48,11 +48,11 @@ ocamlc -ppx ./ppx_test_simple sample_input.ml -o test
 
 Writing a PPX rewriter consists in defining an [`AST mapper`](https://caml.inria.fr/pub/docs/manual-ocaml/libref/Ast_mapper.html) that will be applied to the abstract syntax tree of a source code.
 
-An AST mapper is basically a [record containing a set of callbacks](https://caml.inria.fr/pub/docs/manual-ocaml/libref/Ast_mapper.html#TYPEmapper) specifying what to do for every node types. Instead of defining every callbacks - 40 at the time of writing - it is common to base the new mapper on [the default AST mapper called `Ast_mapper.default_mapper`](https://caml.inria.fr/pub/docs/manual-ocaml/libref/Ast_mapper.html#VALdefault_mapper) which is the identity, by default all callbacks return the same unmodified.
+An AST mapper is basically a [record containing a set of callbacks](https://ocaml.org/api/compilerlibref/Ast_mapper.html#TYPEmapper) specifying what to do for every node types. Instead of defining every callbacks - 40 at the time of writing - it is common to base the new mapper on [the default AST mapper called `Ast_mapper.default_mapper`](https://ocaml.org/api/compilerlibref/Ast_mapper.html#VALdefault_mapper) which is the identity, by default all callbacks return the same unmodified.
 
 ## Extention
 
-In our case, we want to recognize the syntax `[%simple_tag]` as an [extension node](https://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec248) of [expression type](https://caml.inria.fr/pub/docs/manual-ocaml/libref/Parsetree.html#TYPEexpression) in our code and replace it with an integer. This will be achieved with the use of [PPX extension](https://caml.inria.fr/pub/docs/manual-ocaml/libref/Parsetree.html#TYPEextension). In this simple case, the extension node identifier is `simple_tag` and has no payload.
+In our case, we want to recognize the syntax `[%simple_tag]` as an [extension node](https://caml.inria.fr/pub/docs/manual-ocaml/extn.html#sec248) of [expression type](https://ocaml.org/api/compilerlibref/Parsetree.html#TYPEexpression) in our code and replace it with an integer. This will be achieved with the use of [PPX extension](https://ocaml.org/api/compilerlibref/Parsetree.html#TYPEextension). In this simple case, the extension node identifier is `simple_tag` and has no payload.
 
 In order to help us write the pattern matching code, we can use `dumpast` PPX tools on the string `[%simple_tag]` as such:
 
@@ -104,7 +104,7 @@ type payload =
 
 We'll stop drilling in the types for now as `payload` is an empty structure `PStr []` in this case.
 
-These types are defined in [ParseTree Module](https://caml.inria.fr/pub/docs/manual-ocaml/libref/Parsetree.html).
+These types are defined in [ParseTree Module](https://ocaml.org/api/compilerlibref/Parsetree.html).
 
 
 So in order to write our PPX rewriter, we will pattern match on this value:
@@ -167,7 +167,7 @@ let mapper_test_simple argv =
 ```
 
 
-It is the default mapper [Ast\_mapper.default_mapper](https://caml.inria.fr/pub/docs/manual-ocaml/libref/Ast_mapper.html#VALdefault_mapper) with just the `expr` attribute replaced by our function `my_expression_mapper`.
+It is the default mapper [Ast\_mapper.default_mapper](https://ocaml.org/api/compilerlibref/Ast_mapper.html#VALdefault_mapper) with just the `expr` attribute replaced by our function `my_expression_mapper`.
 
 Finally we register the PPX rewriter.
 
